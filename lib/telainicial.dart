@@ -4,20 +4,20 @@ class TelaInicial extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blue, // Cor de fundo
+      backgroundColor: Colors.blue, 
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // Ícone ou logo do aplicativo
+            
             Icon(
-              Icons.checklist, // Substitua pelo seu ícone ou logo
+              Icons.checklist, 
               size: 100,
               color: Colors.white,
             ),
             SizedBox(height: 20),
             Text(
-              'TO DO LIST',
+              'Task List',
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
@@ -32,21 +32,21 @@ class TelaInicial extends StatelessWidget {
                 color: Colors.white,
               ),
             ),
-            SizedBox(height: 400), // Espaço entre o texto e o botão
+            SizedBox(height: 400),
             ElevatedButton(
               onPressed: () {
-                // Navega para a tela de login
+              
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => TelaDeLogin()), // Substitua pela sua tela de login
+                  MaterialPageRoute(builder: (context) => TelaDeLogin()), 
                 );
               },
               child: Text('INICIAR'),
               style: ElevatedButton.styleFrom(
-                foregroundColor: Colors.blue, backgroundColor: Colors.white, // Cor do texto do botão
+                foregroundColor: Colors.blue, backgroundColor: Colors.white, 
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Bordas arredondadas
+                  borderRadius: BorderRadius.circular(30), 
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), // Tamanho do botão
+                padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15), 
               ),
             ),
           ],

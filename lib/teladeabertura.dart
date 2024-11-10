@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async'; // Importa o pacote para usar Timer
-import 'TelaInicial.dart'; // Importa a tela inicial
-
+import 'dart:async'; 
+import 'TelaInicial.dart'; 
 
 class TelaDeAbertura extends StatefulWidget {
   @override
@@ -12,10 +11,10 @@ class _TelaDeAberturaState extends State<TelaDeAbertura> {
   @override
   void initState() {
     super.initState();
-    // Inicia o Timer ao carregar a tela
+    
     Timer(Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => TelaInicial()), // Navega para a tela inicial
+        MaterialPageRoute(builder: (context) => TelaInicial()), 
       );
     });
   }
@@ -28,7 +27,7 @@ class _TelaDeAberturaState extends State<TelaDeAbertura> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.checklist, size: 100, color: Colors.white), // Use seu ícone aqui
+            Icon(Icons.checklist, size: 100, color: Colors.white), 
             SizedBox(height: 20),
             Text(
               'TO DO LIST',

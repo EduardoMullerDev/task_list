@@ -4,6 +4,9 @@ import 'teladeregistro.dart';
 import 'telaprincipal.dart';
 
 class TelaDeLogin extends StatelessWidget {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _senhaController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,6 +28,7 @@ class TelaDeLogin extends StatelessWidget {
             ),
             SizedBox(height: 40),
             TextField(
+              controller: _emailController,
               decoration: InputDecoration(
                 labelText: 'Email',
                 border: OutlineInputBorder(),
@@ -32,6 +36,7 @@ class TelaDeLogin extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
+              controller: _senhaController,
               obscureText: true,
               decoration: InputDecoration(
                 labelText: 'Senha',
@@ -43,7 +48,7 @@ class TelaDeLogin extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () {
-                  // Redirecionar para a tela de recuperação de senha
+                  
                   Navigator.of(context).push(
                     MaterialPageRoute(builder: (context) => TelaRecuperacaoSenha()),
                   );
@@ -57,9 +62,7 @@ class TelaDeLogin extends StatelessWidget {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => TelaPrincipal()),
-                );
+                _login(context);
               },
               child: Text('Entrar'),
               style: ElevatedButton.styleFrom(
@@ -71,7 +74,7 @@ class TelaDeLogin extends StatelessWidget {
             SizedBox(height: 20),
             TextButton(
               onPressed: () {
-                // Redirecionar para a tela de registro
+               
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (context) => TelaRegistro()),
                 );
@@ -83,7 +86,31 @@ class TelaDeLogin extends StatelessWidget {
       ),
     );
   }
-  
-  teladeregistro() {}
-}
 
+  void _login(BuildContext context) {
+    String email = _emailController.text.trim();
+    String senha = _senhaController.text.trim();
+
+   
+    if (email.isEmpty || senha.isEmpty) {
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Email ou senha incorretos',
+            style: TextStyle(color: Colors.red),
+          ),
+          duration: Duration(seconds: 2),
+          backgroundColor: Colors.white,
+        ),
+      );
+    } else {
+      
+
+      
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(builder: (context) => TelaPrincipal()),
+      );
+    }
+  }
+}

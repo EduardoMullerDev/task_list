@@ -1,131 +1,171 @@
 import 'package:flutter/material.dart';
-import 'tela_conta.dart'; // Importe o arquivo com a tela de conta
+import 'TelaAdicionarTarefa.dart';
+import 'configuracao.dart';
+import 'tela_conta.dart';
+import 'calendario.dart'; 
+import 'package:provider/provider.dart';
+import 'theme_provider.dart'; 
+import 'tarefa.dart'; 
 
-class TelaPrincipal extends StatelessWidget {
+class TelaPrincipal extends StatefulWidget {
+  @override
+  _TelaPrincipalState createState() => _TelaPrincipalState();
+}
+
+class _TelaPrincipalState extends State<TelaPrincipal> {
+  List<Tarefa> tarefas = [];
+  List<Tarefa> tarefasFiltradas = [];
+  bool isSearching = false;
+  TextEditingController searchController = TextEditingController();
+
+  void _adicionarTarefa(Tarefa tarefa) {
+    setState(() {
+      tarefas.add(tarefa);
+      tarefasFiltradas = List.from(tarefas); // Atualiza a lista filtrada
+    });
+  }
+
+  void _atualizarTarefa(Tarefa tarefaAtualizada) {
+    setState(() {
+      int index = tarefas.indexWhere((t) => t.nome == tarefaAtualizada.nome);
+      if (index != -1) {
+        tarefas[index] = tarefaAtualizada;
+        tarefasFiltradas = List.from(tarefas); // Atualiza a lista filtrada
+      }
+    });
+  }
+
+  void _excluirTarefa(String id) {
+    setState(() {
+      tarefas.removeWhere((t) => t.id == id);
+      tarefasFiltradas = List.from(tarefas); // Atualiza a lista filtrada
+    });
+  }
+
+  void _navigateToAdicionarTarefa() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TelaAdicionarTarefa(
+          onTarefaSalva: _adicionarTarefa,
+          onTarefaExcluida: _excluirTarefa, 
+        ),
+      ),
+    );
+  }
+
+  void _navigateToEditarTarefa(Tarefa tarefa) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => TelaAdicionarTarefa(
+          tarefa: tarefa,
+          onTarefaSalva: _atualizarTarefa,
+          onTarefaExcluida: _excluirTarefa, 
+        ),
+      ),
+    );
+  }
+
+  void _searchTarefa(String query) {
+    if (query.isEmpty) {
+      setState(() {
+        tarefasFiltradas = List.from(tarefas);
+      });
+    } else {
+      setState(() {
+        tarefasFiltradas = tarefas.where((t) => t.nome.toLowerCase().contains(query.toLowerCase())).toList();
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
-      body: Stack(
-        children: [
-          // Quadrado Azul Fixo na Parte Superior
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: Container(
-              color: Colors.blue,
-              height: MediaQuery.of(context).size.height * 0.25, // Aumentando a altura do quadrado azul
-            ),
-          ),
-          // Conteúdo da tela
-          Column(
-            children: [
-              // AppBar sobre o quadrado azul
-              AppBar(
-                backgroundColor: Colors.blue, // Mudando a cor da AppBar para azul
-             
-                leading: IconButton(
-                  icon: Icon(Icons.menu),
-                  onPressed: () {
-                    // Ação para abrir a tela de menu
-                    Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => TelaMenu()), // Placeholder para a tela de menu
-                    );
-                  },
-                ),
-                actions: [
-                  IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      // Ação para pesquisa
-                    },
-                  ),
-                ],
-              ),
-              // Aba Horizontal
-              Container(
-                height: 170,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: <Widget>[
-                  
-                  ],
-                ),
-              ),
-              // Listas (abaixo do quadrado azul)
-              Expanded(
-                child: ListView(
-                  children: [
-                    _buildListItem('Lista 1'),
-                    _buildListItem('Lista 2'),
-                    _buildListItem('Lista 3'),
-                  ],
-                ),
-              ),
-              // Botão de Adicionar Tarefa
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: FloatingActionButton(
-                    onPressed: () {
-                      // Ação para adicionar tarefa
-                      Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => TelaAdicionarTarefa()), // Placeholder para a tela de adicionar tarefa
-                      );
-                    },
-                    child: Icon(Icons.add),
-                    tooltip: 'Adicionar Tarefa',
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              // Quadrado Azul com Menus Rápidos
-              Container(
-                color: Colors.blue,
-                padding: EdgeInsets.symmetric(vertical: 20),
-                child: Column(
-                  children: [
-                    // Menus Rápidos
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        _buildQuickMenuItem(context, Icons.home, 'Tela Principal'),
-                        _buildQuickMenuItem(context, Icons.calendar_today, 'Calendário'),
-                        _buildQuickMenuItem(context, Icons.settings, 'Configuração'),
-                        _buildQuickMenuItem(context, Icons.account_circle, 'Conta'),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
+      appBar: AppBar(
+        backgroundColor: themeProvider.isDarkMode ? Colors.orange : Colors.blue,
+        title: Text('Tarefas'), 
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              setState(() {
+                isSearching = !isSearching;
+                if (!isSearching) {
+                  searchController.clear();
+                  tarefasFiltradas = List.from(tarefas);
+                }
+              });
+            },
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildListButton(String title) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: ElevatedButton(
-        onPressed: () {
-          // Ação para selecionar a lista
-        },
-        child: Text(title),
+      body: Column(
+        children: [
+          if (isSearching)
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                controller: searchController,
+                onChanged: _searchTarefa,
+                decoration: InputDecoration(
+                  hintText: 'Pesquisar tarefa...',
+                  border: OutlineInputBorder(),
+                ),
+                onSubmitted: (value) {
+                  setState(() {
+                    isSearching = false;
+                    searchController.clear();
+                  });
+                },
+              ),
+            ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: tarefasFiltradas.length,
+              itemBuilder: (context, index) {
+                final tarefa = tarefasFiltradas[index];
+                return ListTile(
+                  title: Text(tarefa.nome),
+                  subtitle: Text('${tarefa.data} - ${tarefa.hora}'),
+                  trailing: tarefa.notificacaoAtivada
+                      ? Icon(Icons.notifications_active)
+                      : Icon(Icons.notifications_off),
+                  onTap: () {
+                    _navigateToEditarTarefa(tarefa);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
       ),
-    );
-  }
-
-  Widget _buildListItem(String title) {
-    return Card(
-      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-      child: ListTile(
-        title: Text(title),
-        onTap: () {
-          // Ação ao clicar na lista
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _navigateToAdicionarTarefa();
         },
+        child: Icon(Icons.add),
+        tooltip: 'Adicionar Tarefa',
+      ),
+      bottomNavigationBar: Container(
+        color: themeProvider.isDarkMode ? Colors.orange : Colors.blue,
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildQuickMenuItem(context, Icons.home, 'Tela Principal'),
+                _buildQuickMenuItem(context, Icons.calendar_today, 'Calendário'),
+                _buildQuickMenuItem(context, Icons.settings, 'Configuração'),
+                _buildQuickMenuItem(context, Icons.account_circle, 'Conta'),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -134,12 +174,18 @@ class TelaPrincipal extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (title == 'Conta') {
-          // Navegar para a tela de conta
           Navigator.of(context).push(
             MaterialPageRoute(builder: (context) => TelaConta()),
           );
+        } else if (title == 'Configuração') {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => TelaConfiguracao()),
+          );
+        } else if (title == 'Calendário') {
+          Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => TelaCalendario()),
+          );
         }
-        // Adicione aqui outras ações para os outros ícones, se necessário
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -156,24 +202,6 @@ class TelaPrincipal extends StatelessWidget {
   }
 }
 
-// Placeholder para a tela de menu
-class TelaMenu extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Menu')),
-      body: Center(child: Text('Tela de Menu')),
-    );
-  }
-}
 
-// Placeholder para a tela de adicionar tarefa
-class TelaAdicionarTarefa extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Adicionar Tarefa')),
-      body: Center(child: Text('Tela de Adicionar Tarefa')),
-    );
-  }
-}
+  
+

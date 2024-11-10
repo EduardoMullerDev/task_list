@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'teladelogin.dart'; // Importando a tela de login
+import 'teladelogin.dart'; 
 
 class TelaRegistro extends StatelessWidget {
   @override
@@ -76,12 +76,12 @@ class TelaRegistro extends StatelessWidget {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                // Redirecionar para a tela de login após o registro
+                
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => TelaDeLogin()),
                 );
 
-                // Exibir o pop-up de sucesso
+                
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -95,7 +95,7 @@ class TelaRegistro extends StatelessWidget {
                     ],
                   ),
                 ).then((_) {
-                  // Fechar o pop-up após 2 segundos
+                  
                   Future.delayed(Duration(seconds: 2), () {
                     Navigator.of(context).pop();
                   });

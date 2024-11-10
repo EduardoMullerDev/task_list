@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'theme_provider.dart';
 
 class TelaConta extends StatefulWidget {
   @override
@@ -12,11 +14,18 @@ class _TelaContaState extends State<TelaConta> {
   final _telefoneController = TextEditingController();
   final _dataNascimentoController = TextEditingController();
 
+  
+  String? email;
+  String? telefone;
+  String? dataNascimento;
+
   @override
   Widget build(BuildContext context) {
+    final themeProvider = Provider.of<ThemeProvider>(context); 
+
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        backgroundColor: themeProvider.isDarkMode ? Colors.orange : Colors.blue, 
         title: Text('Conta'),
       ),
       body: Padding(
@@ -31,7 +40,7 @@ class _TelaContaState extends State<TelaConta> {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.blue,
+                  color: themeProvider.isDarkMode ? Colors.orange : Colors.blue, 
                   fontFamily: 'Roboto',
                 ),
               ),
@@ -91,16 +100,49 @@ class _TelaContaState extends State<TelaConta> {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                // Lógica para atualizar os dados da conta
+              
+                setState(() {
+                  email = _emailController.text;
+                  telefone = _telefoneController.text;
+                  dataNascimento = _dataNascimentoController.text;
+                });
+
+               
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      title: Text('Sucesso'),
+                      content: Text('Dados atualizados com sucesso!'),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop(); 
+                          },
+                          child: Text('OK'),
+                        ),
+                      ],
+                    );
+                  },
+                );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue,
+                backgroundColor: themeProvider.isDarkMode ? Colors.orange : Colors.blue, 
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 15),
                 textStyle: TextStyle(fontSize: 18),
               ),
               child: Text('Atualizar Dados'),
             ),
+            SizedBox(height: 5),
+            
+            if (email != null || telefone != null || dataNascimento != null) ...[
+              Divider(),
+              Text('Dados Atualizados:', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+              Text('Email: ${email ?? 'Não informado'}'),
+              Text('Telefone: ${telefone ?? 'Não informado'}'),
+              Text('Data de Nascimento: ${dataNascimento ?? 'Não informado'}'),
+            ],
           ],
         ),
       ),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'teladelogin.dart'; // Importando a tela de login
+import 'teladelogin.dart'; 
 
 class TelaRecuperacaoSenha extends StatelessWidget {
   @override
@@ -67,12 +67,12 @@ class TelaRecuperacaoSenha extends StatelessWidget {
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
-                // Redirecionar para a tela de login após a atualização
+                
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (context) => TelaDeLogin()),
                 );
 
-                // Exibir o pop-up de sucesso
+                
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
@@ -86,7 +86,7 @@ class TelaRecuperacaoSenha extends StatelessWidget {
                     ],
                   ),
                 ).then((_) {
-                  // Fechar o pop-up após 2 segundos
+                  
                   Future.delayed(Duration(seconds: 2), () {
                     Navigator.of(context).pop();
                   });
@@ -96,7 +96,7 @@ class TelaRecuperacaoSenha extends StatelessWidget {
                 backgroundColor: Colors.blue,
                 foregroundColor: Colors.white,
                 padding: EdgeInsets.symmetric(vertical: 15),
-                textStyle: TextStyle(fontSize: 23), // Aumentado o tamanho da fonte
+                textStyle: TextStyle(fontSize: 23), 
               ),
               child: Text('Atualizar'),
             ),
