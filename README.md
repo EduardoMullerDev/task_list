@@ -14,5 +14,5 @@ RA: 1292315363
 Arthur Da Silva Rodrigues 
 RA: 1072323314
 
-Daniel 
-RA:
+Daniel Junio Severino Ferreira Pinto 
+RA: 12316197
