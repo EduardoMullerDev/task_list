@@ -25,16 +25,7 @@ class TelaRecuperacaoSenha extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 40),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Senha Atual',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              obscureText: true,
-            ),
+            
             SizedBox(height: 30),
             TextField(
               decoration: InputDecoration(

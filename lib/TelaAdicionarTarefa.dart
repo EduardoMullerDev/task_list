@@ -3,6 +3,30 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart'; 
 import 'tarefa.dart';
 import 'theme_provider.dart';
+import 'package:flutter/services.dart';
+
+class DateInputFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    String newText = newValue.text;
+
+    // Remove todos os caracteres que não são dígitos
+    newText = newText.replaceAll(RegExp(r'\D'), '');
+
+    // Formata a data
+    if (newText.length >= 2) {
+      newText = '${newText.substring(0, 2)}/${newText.substring(2)}';
+    }
+    if (newText.length >= 5) {
+      newText = '${newText.substring(0, 5)}/${newText.substring(5)}';
+    }
+
+    return TextEditingValue(
+      text: newText,
+      selection: TextSelection.collapsed(offset: newText.length),
+    );
+  }
+}
 
 class TelaAdicionarTarefa extends StatefulWidget {
   final Tarefa? tarefa;
@@ -34,7 +58,6 @@ class _TelaAdicionarTarefaState extends State<TelaAdicionarTarefa> {
       _horaController.text = widget.tarefa!.hora;
       _notificacaoAtivada = widget.tarefa!.notificacaoAtivada;
     } else {
-      
       _dataController.text = DateFormat('dd/MM/yyyy').format(DateTime.now());
     }
   }
@@ -96,9 +119,11 @@ class _TelaAdicionarTarefaState extends State<TelaAdicionarTarefa> {
                   Expanded(
                     child: TextField(
                       controller: _dataController,
-                      readOnly: true, 
+                      readOnly: false, // Permite edição
+                      inputFormatters: [DateInputFormatter()], // Adiciona o formatter
                       decoration: InputDecoration(
                         labelText: 'Data',
+                        hintText: '00/00/0000', // Sugestão de formato
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
@@ -207,7 +232,6 @@ class _TelaAdicionarTarefaState extends State<TelaAdicionarTarefa> {
     );
 
     if (dataSelecionada != null) {
-      
       String dataFormatada = DateFormat('dd/MM/yyyy').format(dataSelecionada);
       _dataController.text = dataFormatada; 
     }
@@ -220,7 +244,6 @@ class _TelaAdicionarTarefaState extends State<TelaAdicionarTarefa> {
     );
 
     if (horaSelecionada != null) {
-      
       String horaFormatada = horaSelecionada.format(context);
       _horaController.text = horaFormatada; 
     }
