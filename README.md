@@ -1,16 +1,18 @@
 # to_do_app
 
-A new Flutter project.
+https://github.com/EduardoMullerDev/task_list
 
-## Getting Started
+Robson Vinicius dos Santos Freitas 
+RA: 823113738
 
-This project is a starting point for a Flutter application.
+Yuri Damasceno Alves
+RA: 32329922
 
-A few resources to get you started if this is your first Flutter project:
+Eduardo Muller da Rosa 
+RA: 1292315363
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Arthur Da Silva Rodrigues 
+RA: 1072323314
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Daniel 
+RA:
