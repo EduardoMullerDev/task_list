@@ -63,16 +63,7 @@ class TelaRegistro extends StatelessWidget {
               ),
               obscureText: true,
             ),
-            SizedBox(height: 30),
-            TextField(
-              decoration: InputDecoration(
-                labelText: 'Código de Segurança',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              obscureText: true,
-            ),
+          
             SizedBox(height: 40),
             ElevatedButton(
               onPressed: () {
