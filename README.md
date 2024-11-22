@@ -4,6 +4,9 @@ https://github.com/EduardoMullerDev/task_list
 
 Vídeo: https://youtu.be/IAj6kRGo_wU
 
+Arquivo PDF: [A3 Prof.Montanha e Prof.Stella .docx](https://github.com/user-attachments/files/17877382/A3.Prof.Montanha.e.Prof.Stella.docx)
+
+
 Robson Vinicius dos Santos Freitas 
 RA: 823113738
 
