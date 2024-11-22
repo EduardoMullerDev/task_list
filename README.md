@@ -2,6 +2,8 @@
 
 https://github.com/EduardoMullerDev/task_list
 
+Vídeo: https://youtu.be/IAj6kRGo_wU
+
 Robson Vinicius dos Santos Freitas 
 RA: 823113738
 
